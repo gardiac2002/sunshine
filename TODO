@@ -1,0 +1,12 @@
+1) WebElement to String -> e.get_attribute('innerHTML')
+2) write -> clear and send_keys
+3) find -> with implicit wait
+4)  String contents = (String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", element);
+5) setup testing framework for python3.4 and python 2.7
+6) add chromium to supported browsers
+7) context manager for Webdriver __enter__ and __exit__
+8) beautiful string of elements
+9) add convenience functions for all news elements
+
+10) make tutorial for xpath
+11) make css selector tutorial
