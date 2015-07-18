@@ -1,9 +1,9 @@
-__author__ = 'sen'
-
 import time
 from multiprocessing import Process
 
-class ServerManager:
+from .server import app
+
+class TestWebServer:
     """
     Helper class to manage your flask test server.
     """
@@ -38,7 +38,7 @@ class ServerManager:
         Start your test Flask server.
         :return:
         """
-        run = lambda port: server.api.run()
+        run = lambda port: app.run()
         self.server = Process(target=run, args=(self.port,))
         time.sleep(self.startup_wait)
         self.server.start()

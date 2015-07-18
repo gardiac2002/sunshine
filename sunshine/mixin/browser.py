@@ -21,7 +21,10 @@ class SunnyFirefoxMixin(object):
         return self.current_browser
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.current_browser.quit()
+        print(exc_type)
+        print(exc_val)
+        if self.current_browser:
+            self.current_browser.quit()
 
     def __repr__(self):
         s = '<sunshine $name object at "$website">'
