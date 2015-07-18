@@ -1,15 +1,18 @@
 __author__ = 'sen'
 
 import doctest
+import string
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import Firefox
+import six
 
 from sunshine.webelement.webelement import WebElement
 
 
-class SunnyFirefoxMixin:
+class SunnyFirefoxMixin(object):
     """
 
     """
@@ -19,6 +22,12 @@ class SunnyFirefoxMixin:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.current_browser.quit()
+
+    def __repr__(self):
+        s = '<sunshine $name object at "$website">'
+        template = string.Template(s)
+        settings = {'name':self.name, 'website':self.current_url}
+        return template.substitute(settings)
 
     def get(self, url):
         """
@@ -34,10 +43,20 @@ class SunnyFirefoxMixin:
         """
         if not url.startswith('http://'):
             url = 'http://' + url
-        super().get(url)
+
+        if six.PY3:
+            super().get(url)
+        else:
+            super(SunnyFirefoxMixin, self).get(url)
 
     def __find_element(self, selector, wait):
-        waiter_obj = WebDriverWait(super(), wait)
+
+        if six.PY3:
+            super_obj = super()
+        else:
+            super_obj = super(SunnyFirefoxMixin, self)
+
+        waiter_obj = WebDriverWait(super_obj, wait)
         condition = EC.presence_of_element_located(selector)
         element = waiter_obj.until(condition)
         return WebElement(parent=element.parent, id_=element.id)

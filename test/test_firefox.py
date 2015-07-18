@@ -5,22 +5,33 @@ import unittest
 class TestFirefoxCreation(unittest.TestCase):
 
     def test_context_manager(self):
+        from pyvirtualdisplay import Display
         from sunshine import webdriver
+
+        display = Display(visible=False, size=(1024, 768))
+        display.start()
 
         with webdriver.Firefox() as firefox:
             firefox.get('nytimes.com')
             title = firefox.title.lower()
             self.assertIn('times', title)
 
+        display.stop()
+
+
 
 class TestFirefoxFunctionality(unittest.TestCase):
 
     def setUp(self):
         from sunshine import webdriver
+        from pyvirtualdisplay import Display
+        self.display = Display(visible=False, size=(1024, 768))
+        self.display.start()
         self.firefox = webdriver.Firefox()
 
     def tearDown(self):
         self.firefox.quit()
+        self.display.stop()
 
     def test_get_website(self):
         self.firefox.get('derstandard.at')
@@ -48,11 +59,6 @@ class TestFirefoxFunctionality(unittest.TestCase):
         self.firefox.get('slashdot.org')
         element = self.firefox.find_element_by_name('topothepage')
         self.assertEquals(element.tag_name, 'a')
-
-    def test_find_element_by_partial_link_text(self):
-        self.firefox.get('xkcd.com')
-        element = self.firefox.find_element_by_partial_link_text('What ')
-        self.assertEquals(element.text, 'What If?')
 
     def test_find_element_by_tag_name(self):
         self.firefox.get('slashdot.org')

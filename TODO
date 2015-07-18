@@ -1,12 +1,55 @@
-1) WebElement to String -> e.get_attribute('innerHTML')
++) Invisible firefox is possible
++) add local unit testing server
+
 2) write -> clear and send_keys
-3) find -> with implicit wait
 4)  String contents = (String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", element);
 5) setup testing framework for python3.4 and python 2.7
 6) add chromium to supported browsers
-7) context manager for Webdriver __enter__ and __exit__
-8) beautiful string of elements
-9) add convenience functions for all news elements
+9) add convenience functions for all new elements
 
 10) make tutorial for xpath
 11) make css selector tutorial
+
+12) easy access to textarea
+13) easy access to all input fields
+14) easy access to all forms
+15) easy access to all links -> add special WebElement
+
+16) write tutorial on webscraping
+17) write tutorial on unittesting
+18) write tutorial on headless
+
+19) Add support for Chromium
+
+
+Add additional convenience functions:
+* http://stackoverflow.com/questions/7991522/selenium-webdriver-test-if-element-is-present
+* http://stackoverflow.com/questions/6430462/how-to-select-get-drop-down-option-in-selenium-2
+* http://docs.seleniumhq.org/docs/03_webdriver.jsp#user-input-filling-in-forms
+* http://stackoverflow.com/questions/1176348/access-to-file-download-dialog-in-firefox
+* http://stackoverflow.com/questions/10245641/refreshing-web-page-by-webdriver-when-waiting-for-specific-condition
+* http://stackoverflow.com/questions/10399557/is-it-possible-to-run-selenium-firefox-web-driver-headless
+* http://stackoverflow.com/questions/1348937/click-in-ok-button-inside-an-alert-selenium-ide
+* http://stackoverflow.com/questions/10720325/selenium-webdriver-wait-for-complex-page-with-javascriptjs-to-load
+* http://stackoverflow.com/questions/2646195/how-to-check-if-an-element-is-visible-with-webdriver
+* http://stackoverflow.com/questions/2835179/how-to-get-selenium-to-wait-for-ajax-response
+* http://stackoverflow.com/questions/7568899/does-selenium-support-headless-browser-testing
+* http://stackoverflow.com/questions/7852287/using-selenium-to-retrieve-value-of-a-html-input
+* http://stackoverflow.com/questions/7732125/clear-text-from-textarea-with-selenium
+* http://stackoverflow.com/questions/6509628/webdriver-get-http-response-code
+* http://stackoverflow.com/questions/9588827/webdriver-switch-to-new-browser-opened-after-click-on-button
+* http://stackoverflow.com/questions/6787095/how-to-stop-selenium-from-creating-temporary-firefox-profiles-using-web-driver
+* http://stackoverflow.com/questions/17547473/how-to-open-a-new-tab-using-selenium-webdriver
+* http://stackoverflow.com/questions/4189312/capturing-javascript-error-in-selenium
+* http://stackoverflow.com/questions/13963738/how-does-selenium-webdriver-upload-files-to-the-browser
+* http://stackoverflow.com/questions/651783/how-do-i-select-only-visible-elements-using-xpath
+* http://stackoverflow.com/questions/12323403/how-do-i-find-an-element-that-contains-specific-text-in-selenium-webdriver-pyth
+* http://stackoverflow.com/questions/6201425/wait-for-an-ajax-call-to-complete-with-selenium-2-web-driver
+* http://stackoverflow.com/questions/8577636/select-parent-element-of-known-element-in-selenium
+* https://code.google.com/p/selenium/wiki/AdvancedUserInteractions
+* http://stackoverflow.com/questions/7232544/selenium-webdriver-and-dropdown-boxes
+* http://stackoverflow.com/questions/2354827/checking-http-status-code-in-selenium
+* http://stackoverflow.com/questions/15122864/selenium-wait-until-document-is-ready
+* http://stackoverflow.com/questions/6128208/how-to-deal-with-file-uploading-in-test-automation-using-selenium-or-webdriver
+* http://stackoverflow.com/questions/15397483/how-do-i-set-browser-width-and-height-in-selenium-webdriver
+* http://stackoverflow.com/questions/9161773/how-can-i-get-selenium-web-driver-to-wait-for-an-element-to-be-accessible-not-j
