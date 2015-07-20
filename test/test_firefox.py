@@ -1,5 +1,6 @@
 __author__ = 'sen'
 
+from selenium.common.exceptions import TimeoutException
 from pyvirtualdisplay import Display
 
 from test.test_server import TestWebServer
@@ -80,6 +81,22 @@ class TestFirefoxFunctionality(unittest.TestCase):
         self.firefox.get(self.LOCALTEST_URL)
         element = self.firefox.find_element_by_xpath('.//div[@id="navigation"]')
         self.assertEquals(element.tag_name, 'div')
+
+    def test_find_element_not_existing(self):
+        self.firefox.get(self.LOCALTEST_URL)
+        element = self.firefox.find_element_by_id('not-existing-id')
+        self.assertEquals(element, None)
+
+    def test_find_element_raise_error(self):
+
+        from sunshine import webdriver
+        firefox = webdriver.Firefox(raise_exception=True)
+
+        with self.assertRaises(TimeoutException):
+            firefox.get(self.LOCALTEST_URL)
+            firefox.find_element_by_id('not-existing-id')
+
+        firefox.quit()
 
 if __name__ == '__main__':
     unittest.main()

@@ -6,7 +6,8 @@ import string
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import Firefox
+from selenium.common.exceptions import TimeoutException
+
 import six
 
 from sunshine.webelement.webelement import WebElement
@@ -16,15 +17,30 @@ class SunnyFirefoxMixin(object):
     """
 
     """
+    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
+                 capabilities=None, proxy=None, raise_exception=False):
+        """
+
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        if six.PY3:
+            super().__init__(firefox_profile=firefox_profile, firefox_binary=firefox_binary,
+                             timeout=timeout, capabilities=capabilities, proxy=proxy)
+        else:
+            super(SunnyFirefoxMixin, self).__init__(firefox_profile=firefox_profile, firefox_binary=firefox_binary,
+                                                    timeout=timeout, capabilities=capabilities, proxy=proxy)
+        self.raise_exception = raise_exception
+
     def __enter__(self):
-        self.current_browser = self.__class__()
-        return self.current_browser
+        return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        print(exc_type)
-        print(exc_val)
-        if self.current_browser:
-            self.current_browser.quit()
+        if six.PY3:
+            super().quit()
+        else:
+            super(SunnyFirefoxMixin, self).quit()
 
     def __repr__(self):
         s = '<sunshine $name object at "$website">'
@@ -59,12 +75,18 @@ class SunnyFirefoxMixin(object):
         else:
             super_obj = super(SunnyFirefoxMixin, self)
 
-        waiter_obj = WebDriverWait(super_obj, wait)
-        condition = EC.presence_of_element_located(selector)
-        element = waiter_obj.until(condition)
-        return WebElement(parent=element.parent, id_=element.id)
+        try:
+            waiter_obj = WebDriverWait(super_obj, wait)
+            condition = EC.presence_of_element_located(selector)
+            element = waiter_obj.until(condition)
+            found_element = WebElement(parent=element.parent, id_=element.id)
+        except TimeoutException as error:
+            if self.raise_exception:
+                raise TimeoutException(error.msg)
+            found_element = None
+        return found_element
 
-    def find_element_by_id(self, _id, wait=10):
+    def find_element_by_id(self, _id, wait=5):
         """
         Search and find an element by id.
         :param _id:
@@ -82,7 +104,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.ID, _id)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_class_name(self, name, wait=10):
+    def find_element_by_class_name(self, name, wait=5):
         """
 
         :param class_name:
@@ -92,7 +114,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.CLASS_NAME, name)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_css_selector(self, css_selector, wait=10):
+    def find_element_by_css_selector(self, css_selector, wait=5):
         """
 
         :param css_selector:
@@ -102,7 +124,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.CSS_SELECTOR, css_selector)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_link_text(self, link_text, wait=10):
+    def find_element_by_link_text(self, link_text, wait=5):
         """
 
         :param link_text:
@@ -112,7 +134,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.LINK_TEXT, link_text)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_name(self, name, wait=10):
+    def find_element_by_name(self, name, wait=5):
         """
 
         :param name:
@@ -122,7 +144,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.NAME, name)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_partial_link_text(self, link_text, wait=10):
+    def find_element_by_partial_link_text(self, link_text, wait=5):
         """
 
         :param link_text:
@@ -132,7 +154,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.LINK_TEXT, link_text)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_tag_name(self, tag_name, wait=10):
+    def find_element_by_tag_name(self, tag_name, wait=5):
         """
 
         :param tag_name:
@@ -142,7 +164,7 @@ class SunnyFirefoxMixin(object):
         selector = (By.TAG_NAME, tag_name)
         return self.__find_element(selector, wait=wait)
 
-    def find_element_by_xpath(self, xpath, wait=10):
+    def find_element_by_xpath(self, xpath, wait=5):
         """
 
         :param xpath:

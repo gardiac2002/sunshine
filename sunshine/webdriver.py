@@ -11,9 +11,10 @@ class Firefox(browser.SunnyFirefoxMixin, webdriver.Firefox):
 
         >>> from sunshine import webdriver
         >>> with webdriver.Firefox() as firefox:
-        >>>     firefox.get('nytimes.com')
-        >>>     title = firefox.title.lower()
-        >>>     self.assertIn('times', title)
+        ...     firefox.get('nytimes.com')
+        ...     title = firefox.title.lower()
+        ...     'times' in title
+        True
 
     * The __init__ function (url)
     * finds with wait
