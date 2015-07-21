@@ -12,15 +12,10 @@ class TestFirefoxCreation(unittest.TestCase):
     def test_context_manager(self):
         from sunshine import webdriver
 
-        display = Display()
-        display.start()
-
-        with TestWebServer(), webdriver.Firefox() as firefox:
+        with TestWebServer(), webdriver.Firefox(visible=False) as firefox:
             firefox.get('localhost:5000')
             title = firefox.title.lower()
             self.assertIn('test', title)
-
-        display.stop()
 
 
 class TestFirefoxFunctionality(unittest.TestCase):
@@ -31,16 +26,11 @@ class TestFirefoxFunctionality(unittest.TestCase):
     def setUpClass(cls):
         cls.webserver = TestWebServer()
         cls.webserver.start_server()
-
-        cls.display = Display()
-        cls.display.start()
-
         from sunshine import webdriver
-        cls.firefox = webdriver.Firefox()
+        cls.firefox = webdriver.Firefox(visible=False)
 
     @classmethod
     def tearDownClass(cls):
-        cls.display.stop()
         cls.webserver.stop_server()
         cls.firefox.quit()
 
@@ -88,7 +78,7 @@ class TestFirefoxFunctionality(unittest.TestCase):
 
     def test_find_element_raise_error(self):
         from sunshine import webdriver
-        firefox = webdriver.Firefox(raise_exception=True)
+        firefox = webdriver.Firefox(raise_exception=True, visible=False)
 
         with self.assertRaises(TimeoutException):
             firefox.get(self.LOCALTEST_URL)

@@ -20,7 +20,7 @@ class SunnyFirefoxMixin(object):
     """
     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
                  capabilities=None, proxy=None, raise_exception=False,
-                 visible=False):
+                 visible=True):
         """
         :param firefox_profile:
         :param firefox_binary:
@@ -34,7 +34,7 @@ class SunnyFirefoxMixin(object):
         self.display = None
         self.visible = visible
         if not visible:
-            self.display = Display()
+            self.display = Display(visible=visible)
             self.display.start()
 
         if six.PY3:
@@ -67,7 +67,9 @@ class SunnyFirefoxMixin(object):
             super().quit()
         else:
             super(SunnyFirefoxMixin, self).quit()
-        self.display.stop()
+
+        if self.display:
+            self.display.stop()
 
     def get(self, url):
         """

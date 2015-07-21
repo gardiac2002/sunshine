@@ -3,7 +3,6 @@ __author__ = 'sen'
 import unittest
 
 from test.test_server import TestWebServer
-from sunshine.ext.display import Display
 
 class TestWebElement(unittest.TestCase):
 
@@ -14,15 +13,11 @@ class TestWebElement(unittest.TestCase):
         cls.webserver = TestWebServer()
         cls.webserver.start_server()
 
-        cls.display = Display()
-        cls.display.start()
-
         from sunshine import webdriver
-        cls.firefox = webdriver.Firefox()
+        cls.firefox = webdriver.Firefox(visible=False)
 
     @classmethod
     def tearDownClass(cls):
-        cls.display.stop()
         cls.webserver.stop_server()
         cls.firefox.quit()
 

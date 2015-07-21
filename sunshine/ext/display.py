@@ -5,7 +5,7 @@ from pyvirtualdisplay import Display as _VirtualDisplay
 
 class Display(object):
 
-    def __init__(self, visible=False, width=1024, height=768):
+    def __init__(self, visible=True, width=1024, height=768):
         """
 
         :param visible:
