@@ -11,6 +11,7 @@ from selenium.common.exceptions import TimeoutException
 import six
 
 from sunshine.webelement.webelement import WebElement
+from sunshine.ext.display import Display
 
 
 class SunnyFirefoxMixin(object):
@@ -19,7 +20,7 @@ class SunnyFirefoxMixin(object):
     """
     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
                  capabilities=None, proxy=None, raise_exception=False,
-                 invisible=False):
+                 visible=False):
         """
         :param firefox_profile:
         :param firefox_binary:
@@ -30,6 +31,12 @@ class SunnyFirefoxMixin(object):
         :param invisible:
         :return:
         """
+        self.display = None
+        self.visible = visible
+        if not visible:
+            self.display = Display()
+            self.display.start()
+
         if six.PY3:
             super().__init__(firefox_profile=firefox_profile, firefox_binary=firefox_binary,
                              timeout=timeout, capabilities=capabilities, proxy=proxy)
@@ -46,12 +53,21 @@ class SunnyFirefoxMixin(object):
             super().quit()
         else:
             super(SunnyFirefoxMixin, self).quit()
+        if self.display:
+            self.display.stop()
 
     def __repr__(self):
         s = '<sunshine $name object at "$website">'
         template = string.Template(s)
         settings = {'name':self.name, 'website':self.current_url}
         return template.substitute(settings)
+
+    def quit(self):
+        if six.PY3:
+            super().quit()
+        else:
+            super(SunnyFirefoxMixin, self).quit()
+        self.display.stop()
 
     def get(self, url):
         """
@@ -61,7 +77,7 @@ class SunnyFirefoxMixin(object):
         Usage::
 
             >>> from sunshine import webdriver
-            >>> browser = webdriver.Firefox()
+            >>> browser = webdriver.Firefox(visible=False)
             >>> browser.get('github.com')
             >>> browser.quit()
         """
@@ -101,7 +117,7 @@ class SunnyFirefoxMixin(object):
         Usage::
 
             >>> from sunshine import webdriver
-            >>> browser = webdriver.Firefox()
+            >>> browser = webdriver.Firefox(visible=False)
             >>> browser.get('github.com')
             >>> element = browser.find_element_by_id('start-of-content')
             >>> browser.quit()

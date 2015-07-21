@@ -10,7 +10,7 @@ class Firefox(browser.SunnyFirefoxMixin, webdriver.Firefox):
     Sunshine's Firefox class supports context managers::
 
         >>> from sunshine import webdriver
-        >>> with webdriver.Firefox() as firefox:
+        >>> with webdriver.Firefox(visible=False) as firefox:
         ...     firefox.get('nytimes.com')
         ...     title = firefox.title.lower()
         ...     'times' in title
