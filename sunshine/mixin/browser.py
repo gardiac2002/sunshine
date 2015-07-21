@@ -18,11 +18,16 @@ class SunnyFirefoxMixin(object):
 
     """
     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-                 capabilities=None, proxy=None, raise_exception=False):
+                 capabilities=None, proxy=None, raise_exception=False,
+                 invisible=False):
         """
-
-        :param args:
-        :param kwargs:
+        :param firefox_profile:
+        :param firefox_binary:
+        :param timeout:
+        :param capabilities:
+        :param proxy:
+        :param raise_exception:
+        :param invisible:
         :return:
         """
         if six.PY3:

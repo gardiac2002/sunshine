@@ -88,14 +88,12 @@ class TestFirefoxFunctionality(unittest.TestCase):
         self.assertEquals(element, None)
 
     def test_find_element_raise_error(self):
-
         from sunshine import webdriver
         firefox = webdriver.Firefox(raise_exception=True)
 
         with self.assertRaises(TimeoutException):
             firefox.get(self.LOCALTEST_URL)
             firefox.find_element_by_id('not-existing-id')
-
         firefox.quit()
 
 if __name__ == '__main__':
