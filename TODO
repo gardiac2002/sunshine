@@ -3,7 +3,6 @@
 
 2) write -> clear and send_keys
 4)  String contents = (String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", element);
-5) setup testing framework for python3.4 and python 2.7
 6) add chromium to supported browsers
 9) add convenience functions for all new elements
 
