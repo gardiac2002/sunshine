@@ -1,6 +1,8 @@
 import six
 from selenium.webdriver.common.keys import Keys
-from bs4 import BeautifulSoup
+
+from sunshine.ext.html import prettify_html
+
 
 class SunnyWebElementMixin(object):
     """
@@ -19,11 +21,10 @@ class SunnyWebElementMixin(object):
         else:
             outer_html = super(SunnyWebElementMixin, self).get_attribute('outerHTML')
 
-        soup = BeautifulSoup(outer_html, 'html.parser')
         if pretty:
-            return soup.prettify()
+            return prettify_html(outer_html)
         else:
-            return str(soup)
+            return str(outer_html)
 
     @property
     def html(self):

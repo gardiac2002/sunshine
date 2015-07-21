@@ -3,8 +3,7 @@ __author__ = 'sen'
 import unittest
 
 from test.test_server import TestWebServer
-
-from pyvirtualdisplay import Display
+from sunshine.ext.display import Display
 
 class TestWebElement(unittest.TestCase):
 
@@ -15,7 +14,7 @@ class TestWebElement(unittest.TestCase):
         cls.webserver = TestWebServer()
         cls.webserver.start_server()
 
-        cls.display = Display(visible=False, size=(1024, 768))
+        cls.display = Display()
         cls.display.start()
 
         from sunshine import webdriver

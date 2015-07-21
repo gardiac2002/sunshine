@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(name='sunshine',
-      version='0.0.6',
+      version='0.0.7',
       description='Sunshine - Selenium for Human Beings',
       author='Philipp Konrad',
       packages=find_packages(),

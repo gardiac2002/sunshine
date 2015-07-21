@@ -1,19 +1,18 @@
 __author__ = 'sen'
 
+import unittest
+
 from selenium.common.exceptions import TimeoutException
-from pyvirtualdisplay import Display
 
 from test.test_server import TestWebServer
-
-import unittest
+from sunshine.ext.display import Display
 
 class TestFirefoxCreation(unittest.TestCase):
 
     def test_context_manager(self):
-        from pyvirtualdisplay import Display
         from sunshine import webdriver
 
-        display = Display(visible=False, size=(1024, 768))
+        display = Display()
         display.start()
 
         with TestWebServer(), webdriver.Firefox() as firefox:
@@ -33,7 +32,7 @@ class TestFirefoxFunctionality(unittest.TestCase):
         cls.webserver = TestWebServer()
         cls.webserver.start_server()
 
-        cls.display = Display(visible=False, size=(1024, 768))
+        cls.display = Display()
         cls.display.start()
 
         from sunshine import webdriver
