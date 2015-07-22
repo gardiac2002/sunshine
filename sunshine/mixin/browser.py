@@ -13,14 +13,14 @@ import six
 from sunshine.webelement.webelement import WebElement
 from sunshine.ext.display import Display
 
-
-class SunnyFirefoxMixin(object):
+class SunnyWebdriverMixin(object):
     """
 
     """
-    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-                 capabilities=None, proxy=None, raise_exception=False,
-                 visible=True):
+    _additional_parameters = ('visible',
+                              'raise_exception')
+
+    def __init__(self, **kwargs):
         """
         :param firefox_profile:
         :param firefox_binary:
@@ -32,18 +32,19 @@ class SunnyFirefoxMixin(object):
         :return:
         """
         self.display = None
-        self.visible = visible
-        if not visible:
-            self.display = Display(visible=visible)
+        self.visible = kwargs.get('visible', True)
+        if not self.visible:
+            self.display = Display(visible=self.visible)
             self.display.start()
 
+        # important  - deal with that!
+        # nose.proxy.TypeError: __init__() got an unexpected keyword argument 'visible'
+        parameters = {k:v for k,v in kwargs.items() if k not in self._additional_parameters}
         if six.PY3:
-            super().__init__(firefox_profile=firefox_profile, firefox_binary=firefox_binary,
-                             timeout=timeout, capabilities=capabilities, proxy=proxy)
+            super().__init__(**parameters)
         else:
-            super(SunnyFirefoxMixin, self).__init__(firefox_profile=firefox_profile, firefox_binary=firefox_binary,
-                                                    timeout=timeout, capabilities=capabilities, proxy=proxy)
-        self.raise_exception = raise_exception
+            super(SunnyWebdriverMixin, self).__init__(**parameters)
+        self.raise_exception = kwargs.get('raise_exception', False)
 
     def __enter__(self):
         return self
@@ -52,7 +53,7 @@ class SunnyFirefoxMixin(object):
         if six.PY3:
             super().quit()
         else:
-            super(SunnyFirefoxMixin, self).quit()
+            super(SunnyWebdriverMixin, self).quit()
         if self.display:
             self.display.stop()
 
@@ -66,7 +67,7 @@ class SunnyFirefoxMixin(object):
         if six.PY3:
             super().quit()
         else:
-            super(SunnyFirefoxMixin, self).quit()
+            super(SunnyWebdriverMixin, self).quit()
 
         if self.display:
             self.display.stop()
@@ -89,14 +90,14 @@ class SunnyFirefoxMixin(object):
         if six.PY3:
             super().get(url)
         else:
-            super(SunnyFirefoxMixin, self).get(url)
+            super(SunnyWebdriverMixin, self).get(url)
 
     def __find_element(self, selector, wait):
 
         if six.PY3:
             super_obj = super()
         else:
-            super_obj = super(SunnyFirefoxMixin, self)
+            super_obj = super(SunnyWebdriverMixin, self)
 
         try:
             waiter_obj = WebDriverWait(super_obj, wait)

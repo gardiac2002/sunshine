@@ -1,5 +1,6 @@
 +) Invisible firefox is possible
 +) add local unit testing server
++) add comprehensive test suite for opera
 
 2) write -> clear and send_keys
 4)  String contents = (String)((JavascriptExecutor)driver).executeScript("return arguments[0].innerHTML;", element);
